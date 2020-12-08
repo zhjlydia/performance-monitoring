@@ -23,8 +23,8 @@ export class TaskService {
       .startOf('date')
       .format('YYYY-MM-DD')
     const [pv, uv] = await Promise.all([
-      this.environmentService.uv({ begin, end }),
-      this.environmentService.pv({ begin, end })
+      this.environmentService.pv({ begin, end }),
+      this.environmentService.uv({ begin, end })
     ])
     const pvStatis = pv.map(item => {
       return {

@@ -1,3 +1,4 @@
+import { EnvironmentModule } from '@/environment/environment.module'
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common'
 import { MongooseModule } from '@nestjs/mongoose'
 import { Statis, StatisSchema } from 'core/schemas/statis.schema'
@@ -6,6 +7,7 @@ import { StatisService } from './statis.service'
 
 @Module({
   imports: [
+    EnvironmentModule,
     MongooseModule.forFeature([{ name: Statis.name, schema: StatisSchema }])
   ],
   providers: [StatisService],

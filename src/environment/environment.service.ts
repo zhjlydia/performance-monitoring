@@ -151,4 +151,21 @@ export class EnvironmentService {
       .read('sp')
       .exec()
   }
+
+  // pv
+  async pvByAppId(appId: string, req: TimeReq): Promise<number> {
+    const { begin, end } = req
+    const queryjson = {
+      $match: {
+        appId,
+        reportedAt: {
+          $gte: begin
+            ? formatQueryDatetoUtc(begin)
+            : formatQueryDatetoUtc('2020-10-01'),
+          $lte: end ? formatQueryDatetoUtc(end) : new Date()
+        }
+      }
+    }
+    return this.environmentModel.countDocuments(queryjson.$match)
+  }
 }
