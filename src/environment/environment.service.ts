@@ -168,4 +168,37 @@ export class EnvironmentService {
     }
     return this.environmentModel.countDocuments(queryjson.$match)
   }
+
+  // uv
+  async uvByAppId(appId: string, req: TimeReq): Promise<number> {
+    const { begin, end } = req
+    const queryjson = {
+      $match: {
+        appId,
+        reportedAt: {
+          $gte: begin
+            ? formatQueryDatetoUtc(begin)
+            : formatQueryDatetoUtc('2020-10-01'),
+          $lte: end ? formatQueryDatetoUtc(end) : new Date()
+        }
+      }
+    }
+    const res = await this.environmentModel
+      .aggregate([
+        queryjson,
+        {
+          $group: { _id: '$ip' }
+        },
+        {
+          $group: { _id: null, uv: { $sum: 1 } }
+        },
+        {
+          $project: { _id: 0, uv: 1 }
+        }
+      ])
+      .read('sp')
+      .exec()
+
+    return res && res.length ? res[0].uv : 0
+  }
 }
