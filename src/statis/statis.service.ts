@@ -51,7 +51,7 @@ export class StatisService {
       .startOf('date')
       .format('YYYY-MM-DD')
     const todayPv = await this.environmentService.pvByAppId(appId, { begin })
-    return historyPv.length ? historyPv[0].pv + todayPv : todayPv
+    return historyPv.length ? (historyPv[0] as any).pv + todayPv : todayPv
   }
 
   async getTotalUvByAppId(appId: string): Promise<number> {
@@ -74,7 +74,7 @@ export class StatisService {
       .startOf('date')
       .format('YYYY-MM-DD')
     const todayUv = await this.environmentService.uvByAppId(appId, { begin })
-    return historyUv.length ? historyUv[0].uv + todayUv : todayUv
+    return historyUv.length ? (historyUv[0] as any).uv + todayUv : todayUv
   }
 
   async getDailyPvAndUv(req: AppIdTimeReq): Promise<any> {
@@ -161,7 +161,7 @@ export class StatisService {
       todayUv = await this.environmentService.uvByAppId(appId, { begin: today })
       todayPv = await this.environmentService.pvByAppId(appId, { begin: today })
     }
-    return historyPvUv.map(item => {
+    return historyPvUv.map((item: any) => {
       if (includeToday) {
         if (item.type === 'pv') {
           item.statis.push({
