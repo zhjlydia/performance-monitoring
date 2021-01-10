@@ -15,11 +15,11 @@ export class TaskService {
 
   @Cron('0 0 1 * * *')
   async pvAnduvByDay(): Promise<boolean> {
-    const begin = dayjs()
+    const begin = dayjs('2020-12-22')
       .subtract(1, 'day')
       .startOf('date')
       .format('YYYY-MM-DD')
-    const end = dayjs()
+    const end = dayjs('2020-12-22')
       .startOf('date')
       .format('YYYY-MM-DD')
     const [pv, uv] = await Promise.all([

@@ -87,7 +87,9 @@ export class StatisService {
         .subtract(1, 'day')
         .format('YYYY-MM-DD')
     }
-    const dayDiff = dayjs(end).diff(begin, 'day')
+
+    let dayDiff = dayjs(end).diff(begin, 'day') + 1
+    dayDiff = includeToday ? dayDiff - 1 : dayDiff
     const dateArray = []
     for (let i = 0; i <= dayDiff; i++) {
       dateArray.push(
@@ -108,7 +110,7 @@ export class StatisService {
         }
       }
     }
-    const historyPvUv = await this.statisModel.aggregate([
+    let historyPvUv = await this.statisModel.aggregate([
       queryjson,
       {
         $group: {
@@ -161,18 +163,28 @@ export class StatisService {
       todayUv = await this.environmentService.uvByAppId(appId, { begin: today })
       todayPv = await this.environmentService.pvByAppId(appId, { begin: today })
     }
+    // if (!historyPvUv.length) {
+    //   const mock = dateArray.map(item => {
+    //     return {
+    //       time: item,
+    //       count: 0
+    //     }
+    //   })
+    //   historyPvUv = [
+    //     { type: 'pv', statis: mock },
+    //     { type: 'uv', statis: mock }
+    //   ]
+    // }
     return historyPvUv.map((item: any) => {
       if (includeToday) {
         if (item.type === 'pv') {
-          item.statis.push({
-            time: formatQueryDatetoUtc(today),
-            count: todayPv
-          })
+          item.statis = item.statis.concat([
+            { time: formatQueryDatetoUtc(today), count: 1 }
+          ])
         } else if (item.type === 'uv') {
-          item.statis.push({
-            time: formatQueryDatetoUtc(today),
-            count: todayUv
-          })
+          item.statis = item.statis.concat([
+            { time: formatQueryDatetoUtc(today), count: 2 }
+          ])
         }
       }
       return {
