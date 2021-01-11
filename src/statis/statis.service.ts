@@ -163,18 +163,18 @@ export class StatisService {
       todayUv = await this.environmentService.uvByAppId(appId, { begin: today })
       todayPv = await this.environmentService.pvByAppId(appId, { begin: today })
     }
-    // if (!historyPvUv.length) {
-    //   const mock = dateArray.map(item => {
-    //     return {
-    //       time: item,
-    //       count: 0
-    //     }
-    //   })
-    //   historyPvUv = [
-    //     { type: 'pv', statis: mock },
-    //     { type: 'uv', statis: mock }
-    //   ]
-    // }
+    if (!historyPvUv.length) {
+      const mock = dateArray.map(item => {
+        return {
+          time: item,
+          count: 0
+        }
+      })
+      historyPvUv = [
+        { type: 'pv', statis: mock },
+        { type: 'uv', statis: mock }
+      ]
+    }
     return historyPvUv.map((item: any) => {
       if (includeToday) {
         if (item.type === 'pv') {
