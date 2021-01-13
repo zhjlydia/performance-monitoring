@@ -1,7 +1,7 @@
 import { randomString } from '@/common/utils'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { CreateSiteDto } from 'core/models/site'
+import { CreateSiteVo } from 'core/models/site'
 import { Site, SiteDocument } from 'core/schemas/site.schema'
 import { Model } from 'mongoose'
 
@@ -11,12 +11,12 @@ export class SiteService {
     @InjectModel(Site.name) private readonly siteModel: Model<SiteDocument>
   ) {}
 
-  async create(createSiteDto: CreateSiteDto): Promise<Site> {
+  async create(createSiteVo: CreateSiteVo): Promise<Site> {
     const createdSite = new this.siteModel({
-      domain: createSiteDto.domain,
-      name: createSiteDto.name,
+      domain: createSiteVo.domain,
+      name: createSiteVo.name,
       appId: randomString(),
-      isOpen: createSiteDto.isOpen
+      isOpen: createSiteVo.isOpen
     })
     return createdSite.save()
   }

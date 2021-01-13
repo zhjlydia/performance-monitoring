@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Post } from '@nestjs/common'
 import { ApiOperation, ApiTags } from '@nestjs/swagger'
 import { HandledException } from 'core/exception'
-import { CreateSiteDto } from 'core/models/site'
+import { CreateSiteVo } from 'core/models/site'
 import { Site } from 'core/schemas/site.schema'
 import { SiteService } from './site.service'
 
@@ -12,8 +12,8 @@ export class SiteController {
 
   @ApiOperation({ summary: '创建应用' })
   @Post()
-  async create(@Body() createSiteDto: CreateSiteDto): Promise<string> {
-    const res: Site = await this.siteService.create(createSiteDto)
+  async create(@Body() createSiteVo: CreateSiteVo): Promise<string> {
+    const res: Site = await this.siteService.create(createSiteVo)
     if (!res) {
       throw new HandledException('创建应用失败')
     }
