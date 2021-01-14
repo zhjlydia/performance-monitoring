@@ -1,10 +1,13 @@
 import { Controller, Get, Query } from '@nestjs/common'
-import { ApiOperation, ApiTags } from '@nestjs/swagger'
+import { ApiExtraModels, ApiOperation, ApiTags } from '@nestjs/swagger'
+import { SimpleResponse } from 'core/decorators/simpleResponse'
+import { BaseResponse } from 'core/models/base'
 import { EnvironmentReq, GroupData } from 'core/models/environment'
 import { Environment } from 'core/schemas/environment.schema'
 import { EnvironmentService } from '../environment/environment.service'
-type Class<T = any> = new (...args: any[]) => T
+
 @ApiTags('用户环境')
+@ApiExtraModels(BaseResponse)
 @Controller('environment')
 export class EnvironmentController {
   constructor(private readonly environmentService: EnvironmentService) {}
@@ -16,11 +19,7 @@ export class EnvironmentController {
   }
 
   @ApiOperation({ summary: '获取用户环境信息/pv分布图' })
-  // @ApiResponse({
-  //   status: 200,
-  //   description: 'The found record',
-  //   type: new BaseResponse<GroupData>()
-  // })
+  @SimpleResponse(GroupData)
   @Get('getDataGroupBy')
   async getDataGroupBy(@Query() query: EnvironmentReq): Promise<GroupData[]> {
     return this.environmentService.getDataGroupBy(query)
