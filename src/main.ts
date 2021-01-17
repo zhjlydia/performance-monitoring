@@ -2,7 +2,6 @@ import { NestFactory } from '@nestjs/core'
 import { NestExpressApplication } from '@nestjs/platform-express/interfaces/nest-express-application.interface'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import { CommonExceptionFilter } from 'core/filters/common-exception.filter'
-import { TransformInterceptor } from 'core/interceptor/transform.interceptor'
 import alias from 'module-alias'
 import path from 'path'
 import { AppModule } from './app.module'
@@ -18,8 +17,6 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
   // 全局错误过滤器
   app.useGlobalFilters(new CommonExceptionFilter())
-  // 全局接口返回结果处理器
-  app.useGlobalInterceptors(new TransformInterceptor())
 
   const options = new DocumentBuilder()
     .setTitle('Web Monitoring')

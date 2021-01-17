@@ -1,19 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger'
-export class CreateEnvironmentFromReport {
-  readonly appId: string
-  readonly reportMark: string
-  readonly ip: string
-  readonly net: string
-  readonly browser: string
-  readonly borwserVersion: string
-  readonly system: string
-  readonly systemVersion: string
-  readonly county: string
-  readonly province: string
-  readonly reportedAt: Date
-}
 
-export class EnvironmentReq {
+export class EnvironmentQuery {
   @ApiProperty({
     description: '查询类型',
     enum: ['province', 'browser', 'system', 'net']
@@ -27,13 +14,13 @@ export class EnvironmentReq {
   endTime?: string
 }
 
-export class GroupData {
+export class GroupDataDto {
   @ApiProperty({
-    description: '查询类型'
+    description: '数量'
   })
   count: number
   @ApiProperty({
-    description: '查询类型'
+    description: '指标值'
   })
   name: string
 }

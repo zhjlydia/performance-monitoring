@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { PerformanceDetailReq, PerformanceReq } from 'core/models/page'
+import { PaginatedDto } from 'core/models/common'
+import {
+  PerformanceDetailQuery,
+  PerformanceDto,
+  PerformanceQuery
+} from 'core/models/page'
 import { Page, PageDocument } from 'core/schemas/page.schema'
 import { Report } from 'core/schemas/report.schema'
 import { formatQueryDatetoUtc } from 'core/utils'
@@ -39,8 +44,10 @@ export class PageService {
     return this.pageModel.find()
   }
 
-  async getAveragePerformance(performanceReq: PerformanceReq): Promise<any> {
-    const { appId, url, index, size, begin, end } = performanceReq
+  async getAveragePerformance(
+    query: PerformanceQuery
+  ): Promise<PaginatedDto<PerformanceDto>> {
+    const { appId, url, index, size, begin, end } = query
     const queryjson = {
       $match: {
         appId,
@@ -109,9 +116,9 @@ export class PageService {
   }
 
   async getPerformanceDetail(
-    performanceDetailReq: PerformanceDetailReq
-  ): Promise<any> {
-    const { appId, url, begin, end } = performanceDetailReq
+    query: PerformanceDetailQuery
+  ): Promise<PerformanceDto> {
+    const { appId, url, begin, end } = query
     const queryjson = {
       $match: {
         appId,
@@ -161,6 +168,6 @@ export class PageService {
     if (data && data.length) {
       return data[0]
     }
-    return {}
+    return null
   }
 }

@@ -9,7 +9,7 @@ export class Pagination {
   size: number
 }
 
-export class TimeReq {
+export class TimeQuery {
   @ApiProperty({
     description: '开始时间'
   })
@@ -18,9 +18,16 @@ export class TimeReq {
   end?: string
 }
 
-export class AppIdTimeReq extends TimeReq {
+export class AppIdTimeQuery extends TimeQuery {
   @ApiProperty({
     description: '应用唯一标识'
   })
   appId: string
+}
+
+export class PaginatedDto<TData> {
+  @ApiProperty()
+  total: number
+
+  list: TData[]
 }

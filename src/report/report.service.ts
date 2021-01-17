@@ -1,7 +1,7 @@
 import { randomString } from '@/common/utils'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { CreateReportDto } from 'core/models/report'
+import { ReportVo } from 'core/models/report'
 import { Report, ReportDocument } from 'core/schemas/report.schema'
 import { Model } from 'mongoose'
 
@@ -15,13 +15,13 @@ export class ReportService {
   async create(
     ip: string,
     userAgent: string,
-    createReportDto: CreateReportDto
+    reportVo: ReportVo
   ): Promise<Report> {
     const newReport = new this.reportModel({
       ip,
       userAgent,
       reportMark: randomString(),
-      ...createReportDto
+      ...reportVo
     })
     return newReport.save()
   }

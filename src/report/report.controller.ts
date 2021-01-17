@@ -2,8 +2,9 @@ import { EnvironmentService } from '@/environment/environment.service'
 import { PageService } from '@/page/page.service'
 import { ResourceService } from '@/resource/resource.service'
 import { Controller, Get, Query, Req } from '@nestjs/common'
-import { ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
+import { ApiOkResponse, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger'
 import { HandledException } from 'core/exception'
+import { ReportVo } from 'core/models/report'
 import { ReportService } from '../report/report.service'
 
 @ApiTags('上报')
@@ -24,12 +25,18 @@ export class ReportController {
       '{"appId":"hkoqeiXDti02zIz0Nuu66","url":"https://docs.nestjs.com/custom-decorators","net":"4G","performance":{"fp":120,"fcp":150,"load":500,"tti":886,"dns":50,"tcp":20},"resourceList":[{"name":"https://use.fontawesome.com/releases/v5.0.8/js/all.js","initiatorType":"script","duration":217,"nextHopProtocol":"h2"},{"name":"https://use.fontawesome.com/releases/v5.0.8/js/example.js","initiatorType":"script","duration":217,"nextHopProtocol":"h2"}]}'
   })
   @Get()
+  @ApiOkResponse({ type: Boolean })
   async create(
     @Req() req: any,
     @Query('reportJsonString') reportJsonString: string
   ): Promise<boolean> {
     const userAgent = req.headers['user-agent']
-    const dto = JSON.parse(reportJsonString)
+    let dto: ReportVo | null = null
+    try {
+      dto = JSON.parse(reportJsonString)
+    } catch (error) {
+      throw new HandledException('入参错误')
+    }
     const newReport = await this.reportService.create(req.ip, userAgent, dto)
     if (newReport) {
       const res = await Promise.all([

@@ -1,7 +1,8 @@
 import { EnvironmentService } from '@/environment/environment.service'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { AppIdTimeReq } from 'core/models/common'
+import { AppIdTimeQuery } from 'core/models/common'
+import { StatisGroupDto } from 'core/models/statis'
 import { Statis, StatisDocument } from 'core/schemas/statis.schema'
 import { formatQueryDatetoUtc } from 'core/utils'
 import dayjs from 'dayjs'
@@ -77,9 +78,9 @@ export class StatisService {
     return historyUv.length ? (historyUv[0] as any).uv + todayUv : todayUv
   }
 
-  async getDailyPvAndUv(req: AppIdTimeReq): Promise<any> {
-    const { begin, appId } = req
-    let end = req.end
+  async getDailyPvAndUv(query: AppIdTimeQuery): Promise<StatisGroupDto[]> {
+    const { begin, appId } = query
+    let end = query.end
     let includeToday = false
     if (!dayjs(end).isBefore(dayjs(), 'day')) {
       includeToday = true

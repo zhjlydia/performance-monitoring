@@ -27,8 +27,7 @@ export class CommonExceptionFilter implements ExceptionFilter {
 
     response.status(status).json({
       code,
-      message: exception.message,
-      name: exception.name
+      message: exception.message
     })
   }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { PageResourcesReq } from 'core/models/resource'
+import { PageResourcesQuery, ResourceDto } from 'core/models/resource'
 import { Report } from 'core/schemas/report.schema'
 import { Resource, ResourceDocument } from 'core/schemas/resource.schema'
 import { formatQueryDatetoUtc } from 'core/utils'
@@ -43,8 +43,10 @@ export class ResourceService {
     return this.resourceModel.find()
   }
 
-  async getPageResources(pageResourcesReq: PageResourcesReq): Promise<any> {
-    const { appId, url, begin, end } = pageResourcesReq
+  async getPageResources(
+    PageResourcesQuery: PageResourcesQuery
+  ): Promise<ResourceDto[]> {
+    const { appId, url, begin, end } = PageResourcesQuery
     const queryjson = {
       $match: {
         appId,

@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { ApiProperty } from '@nestjs/swagger'
 import * as mongoose from 'mongoose'
 
 export type EnvironmentDocument = Environment & mongoose.Document
@@ -8,76 +9,76 @@ export type EnvironmentDocument = Environment & mongoose.Document
   versionKey: false
 })
 export class Environment {
-  /**
-   * 应用唯一标识
-   */
   @Prop()
+  @ApiProperty({
+    description: '应用唯一标识'
+  })
   appId: string
 
-  /**
-   * 此次上报的唯一标识符
-   */
   @Prop()
+  @ApiProperty({
+    description: '此次上报的唯一标识符'
+  })
   reportMark: string
 
-  /**
-   * 用户ip
-   */
   @Prop()
+  @ApiProperty({
+    description: '用户ip'
+  })
   ip: string
 
-  /**
-   * 用户网络
-   */
   @Prop()
+  @ApiProperty({
+    description: '用户网络'
+  })
   net: string
 
-  /**
-   * 用户浏览器
-   */
   @Prop()
+  @ApiProperty({
+    description: '用户浏览器'
+  })
   browser: string
 
-  /**
-   * 用户浏览器版本
-   */
   @Prop()
+  @ApiProperty({
+    description: '用户浏览器版本'
+  })
   borwserVersion: string
 
-  /**
-   * 用户操作系统
-   */
   @Prop()
+  @ApiProperty({
+    description: '用户操作系统'
+  })
   system: string
 
-  /**
-   * 用户操作系统版本
-   */
   @Prop()
+  @ApiProperty({
+    description: '用户操作系统版本'
+  })
   systemVersion: string
 
-  /**
-   * 国家
-   */
   @Prop()
+  @ApiProperty({
+    description: '国家'
+  })
   country: string
 
-  /**
-   * 省
-   */
   @Prop()
+  @ApiProperty({
+    description: '省'
+  })
   province: string
 
-  /**
-   * 市
-   */
   @Prop()
+  @ApiProperty({
+    description: '市'
+  })
   city: string
 
-  /**
-   * 上报时间
-   */
   @Prop()
+  @ApiProperty({
+    description: '上报时间'
+  })
   reportedAt: Date
 }
 

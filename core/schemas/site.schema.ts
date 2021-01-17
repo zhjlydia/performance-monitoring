@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose'
+import { ApiProperty } from '@nestjs/swagger'
 import * as mongoose from 'mongoose'
 
 export type SiteDocument = Site & mongoose.Document
@@ -8,28 +9,28 @@ export type SiteDocument = Site & mongoose.Document
   versionKey: false
 })
 export class Site {
-  /**
-   * 应用域名
-   */
   @Prop()
+  @ApiProperty({
+    description: '应用域名'
+  })
   domain: string
 
-  /**
-   * 应用名称
-   */
   @Prop()
+  @ApiProperty({
+    description: '应用名称'
+  })
   name: string
 
-  /**
-   * 应用唯一标识
-   */
   @Prop()
+  @ApiProperty({
+    description: '应用唯一标识'
+  })
   appId: string
 
-  /**
-   * 是否启用
-   */
   @Prop()
+  @ApiProperty({
+    description: '是否启用'
+  })
   isOpen: boolean
 }
 

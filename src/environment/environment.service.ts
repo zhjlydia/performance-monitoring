@@ -1,8 +1,8 @@
 import { IpLibraryService } from '@/ipLibrary/ipLibrary.service'
 import { Injectable } from '@nestjs/common'
 import { InjectModel } from '@nestjs/mongoose'
-import { TimeReq } from 'core/models/common'
-import { EnvironmentReq, GroupData } from 'core/models/environment'
+import { TimeQuery } from 'core/models/common'
+import { EnvironmentQuery, GroupDataDto } from 'core/models/environment'
 import {
   Environment,
   EnvironmentDocument
@@ -53,8 +53,8 @@ export class EnvironmentService {
     return this.environmentModel.find()
   }
 
-  async getDataGroupBy(req: EnvironmentReq): Promise<GroupData[]> {
-    const { beginTime, endTime, type, appId } = req
+  async getDataGroupBy(query: EnvironmentQuery): Promise<GroupDataDto[]> {
+    const { beginTime, endTime, type, appId } = query
     const queryjson = {
       $match: {
         appId,
@@ -89,8 +89,8 @@ export class EnvironmentService {
   }
 
   // pv
-  async pv(req: TimeReq): Promise<any> {
-    const { begin, end } = req
+  async pv(query: TimeQuery): Promise<any> {
+    const { begin, end } = query
     const queryjson = {
       $match: {
         reportedAt: {
@@ -116,8 +116,8 @@ export class EnvironmentService {
   }
 
   // uv
-  async uv(req: TimeReq): Promise<any> {
-    const { begin, end } = req
+  async uv(query: TimeQuery): Promise<any> {
+    const { begin, end } = query
     const queryjson = {
       $match: {
         reportedAt: {
@@ -153,8 +153,8 @@ export class EnvironmentService {
   }
 
   // pv
-  async pvByAppId(appId: string, req: TimeReq): Promise<number> {
-    const { begin, end } = req
+  async pvByAppId(appId: string, query: TimeQuery): Promise<number> {
+    const { begin, end } = query
     const queryjson = {
       $match: {
         appId,
@@ -170,8 +170,8 @@ export class EnvironmentService {
   }
 
   // uv
-  async uvByAppId(appId: string, req: TimeReq): Promise<number> {
-    const { begin, end } = req
+  async uvByAppId(appId: string, query: TimeQuery): Promise<number> {
+    const { begin, end } = query
     const queryjson = {
       $match: {
         appId,
